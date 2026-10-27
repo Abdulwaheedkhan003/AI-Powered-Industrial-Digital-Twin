@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+websockets
+pyserial
+pandas
+numpy
+httpx
+pytest

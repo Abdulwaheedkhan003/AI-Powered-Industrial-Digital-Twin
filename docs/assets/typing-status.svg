@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 48" width="100%" height="auto">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700&amp;display=swap');
+      .container { fill: #181A1C; stroke: #2C3035; stroke-width: 1; }
+      .text { font-family: 'JetBrains Mono', monospace; font-size: 13px; fill: #E1E4E8; }
+      .accent { fill: #FF5400; font-weight: 700; }
+      .success { fill: #00E676; font-weight: 700; }
+      .cursor { fill: #FF5400; animation: blink 1s infinite; }
+      @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+    </style>
+  </defs>
+  <rect width="850" height="48" rx="4" class="container" />
+  <circle cx="24" cy="24" r="5" fill="#FF5400" />
+  <text x="44" y="29" class="text">
+    <tspan class="accent">SYS::DIAGNOSTICS &gt;&gt; </tspan>
+    <tspan>TELEMETRY LINK: </tspan><tspan class="success">ONLINE</tspan>
+    <tspan> | ISO 10816 VIBRATION SPECTRUM: </tspan><tspan class="success">NORMAL</tspan>
+    <tspan> | TWIN: </tspan><tspan class="accent">SYNCHRONIZED</tspan>
+  </text>
+  <rect x="765" y="16" width="8" height="17" class="cursor" />
+</svg>

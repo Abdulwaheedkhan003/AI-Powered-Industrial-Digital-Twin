@@ -1,0 +1,772 @@
+{
+  "site": {
+    "site_id": "PLANT-DEMO-01",
+    "name": "Demonstration Plant",
+    "area": "Assembly Hall A",
+    "note": "Demonstration layout. One physical proof-of-concept node; all other assets are simulated or replayed."
+  },
+  "assets": [
+    {
+      "asset_id": "MOTOR-001",
+      "name": "Drive Motor M1",
+      "type": "dc_motor",
+      "data_mode": "REAL",
+      "device_id": "ESP32-NODE-01",
+      "position": [
+        5,
+        0,
+        7.6
+      ],
+      "rotation": 1.5708,
+      "drives": "CONV-001",
+      "description": "Small DC geared motor monitored by the ESP32 proof-of-concept node. Shown as a conceptual direct-drive motor; the real unit's integral gearbox is not modelled.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "CONV-001",
+      "name": "Transfer Conveyor C1",
+      "type": "conveyor",
+      "data_mode": "REAL",
+      "position": [
+        0,
+        0,
+        5
+      ],
+      "rotation": 0,
+      "driven_by": "MOTOR-001",
+      "description": "Virtual conveyor driven by MOTOR-001. Belt speed is the drum surface speed computed from the measured RPM. It has no sensors of its own.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual",
+      "drive": {
+        "drum_radius_m": 0.1,
+        "reduction": 1.0,
+        "note": "Conceptual. The measured RPM is applied to the drive drum. If the Hall sensor sits on the motor shaft rather than the output, set reduction to the gear ratio."
+      }
+    },
+    {
+      "asset_id": "FAN-201",
+      "name": "Cooling Fan F1",
+      "type": "cooling_fan",
+      "data_mode": "SIMULATED",
+      "position": [
+        -10,
+        0,
+        -5
+      ],
+      "rotation": 0.5,
+      "seed": 201,
+      "description": "Simulated axial cooling fan.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "PUMP-301",
+      "name": "Process Pump P1",
+      "type": "pump",
+      "data_mode": "SIMULATED",
+      "position": [
+        -3.5,
+        0,
+        -5
+      ],
+      "rotation": 0,
+      "seed": 301,
+      "description": "Simulated centrifugal pump.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "COMP-401",
+      "name": "Air Compressor K1",
+      "type": "compressor",
+      "data_mode": "SIMULATED",
+      "position": [
+        3.5,
+        0,
+        -5
+      ],
+      "rotation": 0,
+      "seed": 401,
+      "description": "Simulated reciprocating air compressor.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "GBX-501",
+      "name": "Reduction Gearbox G1",
+      "type": "gearbox",
+      "data_mode": "SIMULATED",
+      "position": [
+        10,
+        0,
+        -5
+      ],
+      "rotation": 0,
+      "seed": 501,
+      "description": "Simulated two-shaft reduction gearbox.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "MOTOR-002",
+      "name": "Auxiliary Motor M2",
+      "type": "motor",
+      "data_mode": "SIMULATED",
+      "position": [
+        12.5,
+        0,
+        4.5
+      ],
+      "rotation": 3.1416,
+      "seed": 2,
+      "description": "Simulated induction motor.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    },
+    {
+      "asset_id": "MOTOR-RPL-01",
+      "name": "Recorded Motor (Replay)",
+      "type": "dc_motor",
+      "data_mode": "REPLAY",
+      "position": [
+        -16.5,
+        0,
+        4.5
+      ],
+      "rotation": 0,
+      "description": "Plays back a recorded session, sample by sample.",
+      "manufacturer": null,
+      "model_number": null,
+      "model_fidelity": "conceptual"
+    }
+  ],
+  "component_library": {
+    "_note": "General engineering reference for conceptual models. Not manufacturer data. Material, dimensions, manufacturer and part number are unknown unless entered for a specific asset.",
+    "housing": {
+      "name": "Housing",
+      "description": "Outer frame that supports the stator and dissipates heat.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Blocked cooling fins",
+        "Loose mounting"
+      ],
+      "inspection": "Check for dirt on cooling surfaces and that mounting bolts are tight."
+    },
+    "stator": {
+      "name": "Stator",
+      "description": "Stationary windings that create the magnetic field.",
+      "related_signals": [
+        "current",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Winding insulation degradation",
+        "Overheating"
+      ],
+      "inspection": "Insulation resistance test by qualified personnel with the machine isolated."
+    },
+    "rotor": {
+      "name": "Rotor",
+      "description": "Rotating core that turns the shaft.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Imbalance",
+        "Rub against stator"
+      ],
+      "inspection": "Check for rub marks and balance condition."
+    },
+    "shaft": {
+      "name": "Shaft",
+      "description": "Transmits torque to the driven load.",
+      "related_signals": [
+        "vibration",
+        "rpm",
+        "current"
+      ],
+      "failure_modes": [
+        "Misalignment",
+        "Bent shaft",
+        "Binding of the driven load"
+      ],
+      "inspection": "Check coupling alignment and that the load turns freely by hand with power isolated."
+    },
+    "bearing_de": {
+      "name": "Drive-end bearing",
+      "description": "Supports the shaft at the load side.",
+      "related_signals": [
+        "vibration",
+        "temperature",
+        "current"
+      ],
+      "failure_modes": [
+        "Wear",
+        "Lubrication loss",
+        "Contamination"
+      ],
+      "inspection": "Listen and feel for roughness, check play and lubrication. Replace only following the approved procedure."
+    },
+    "bearing_nde": {
+      "name": "Non-drive-end bearing",
+      "description": "Supports the shaft at the fan side.",
+      "related_signals": [
+        "vibration",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Wear",
+        "Lubrication loss"
+      ],
+      "inspection": "As for the drive-end bearing."
+    },
+    "cooling_fan": {
+      "name": "Cooling fan",
+      "description": "Shaft-mounted fan that moves air over the housing.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Broken or loose blades",
+        "Blocked intake"
+      ],
+      "inspection": "Check blades and that the cowl intake is clear."
+    },
+    "fan_cowl": {
+      "name": "Fan cowl",
+      "description": "Guard that directs cooling air along the housing.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Blocked grille",
+        "Damage"
+      ],
+      "inspection": "Clear the grille."
+    },
+    "end_shield": {
+      "name": "End shield",
+      "description": "End cover that carries a bearing.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Loose fasteners"
+      ],
+      "inspection": "Check fasteners."
+    },
+    "terminal_box": {
+      "name": "Terminal box",
+      "description": "Electrical connection point.",
+      "related_signals": [
+        "current"
+      ],
+      "failure_modes": [
+        "Loose terminals",
+        "Moisture ingress"
+      ],
+      "inspection": "With power isolated, check terminal tightness and for signs of heating."
+    },
+    "base": {
+      "name": "Mounting feet / base",
+      "description": "Fixes the machine to its foundation.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Loose bolts",
+        "Soft foot"
+      ],
+      "inspection": "Check bolt tightness and that all feet sit flat."
+    },
+    "casing": {
+      "name": "Fan casing",
+      "description": "Duct section around the impeller.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Loose mounting",
+        "Blade rub"
+      ],
+      "inspection": "Check clearances and mounting."
+    },
+    "impeller": {
+      "name": "Impeller",
+      "description": "Rotating bladed element that moves the fluid.",
+      "related_signals": [
+        "vibration",
+        "rpm",
+        "airflow",
+        "pressure"
+      ],
+      "failure_modes": [
+        "Imbalance from dirt build-up",
+        "Blade damage"
+      ],
+      "inspection": "Clean and inspect blades; check balance."
+    },
+    "motor": {
+      "name": "Drive motor",
+      "description": "Electric motor driving the machine.",
+      "related_signals": [
+        "current",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Overheating",
+        "Overload"
+      ],
+      "inspection": "Check cooling path and current draw."
+    },
+    "stand": {
+      "name": "Support stand",
+      "description": "Structural support.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Loose fixings"
+      ],
+      "inspection": "Check fixings."
+    },
+    "volute": {
+      "name": "Volute casing",
+      "description": "Pump casing that converts velocity into pressure.",
+      "related_signals": [
+        "pressure"
+      ],
+      "failure_modes": [
+        "Internal wear",
+        "Blockage"
+      ],
+      "inspection": "Inspect for wear and blockage during overhaul."
+    },
+    "seal": {
+      "name": "Mechanical seal",
+      "description": "Seals the shaft where it enters the casing.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Leakage",
+        "Dry running"
+      ],
+      "inspection": "Check for leakage at the seal."
+    },
+    "coupling": {
+      "name": "Coupling",
+      "description": "Joins the shaft to the driven machine and turns with it.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Misalignment",
+        "Loose bolts",
+        "Worn flexible element"
+      ],
+      "inspection": "Check alignment, bolt tightness and the flexible element with power isolated."
+    },
+    "bearing_housing": {
+      "name": "Bearing housing",
+      "description": "Carries the pump shaft bearings.",
+      "related_signals": [
+        "vibration",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Lubrication loss"
+      ],
+      "inspection": "Check lubricant level and condition."
+    },
+    "flange_in": {
+      "name": "Suction flange",
+      "description": "Inlet connection.",
+      "related_signals": [
+        "pressure"
+      ],
+      "failure_modes": [
+        "Restriction",
+        "Air ingress"
+      ],
+      "inspection": "Check for restriction and leaks."
+    },
+    "flange_out": {
+      "name": "Discharge flange",
+      "description": "Outlet connection.",
+      "related_signals": [
+        "pressure"
+      ],
+      "failure_modes": [
+        "Restriction"
+      ],
+      "inspection": "Check downstream valves."
+    },
+    "tank": {
+      "name": "Air receiver",
+      "description": "Stores compressed air.",
+      "related_signals": [
+        "pressure"
+      ],
+      "failure_modes": [
+        "Condensate build-up"
+      ],
+      "inspection": "Drain condensate. Pressure vessels require statutory inspection."
+    },
+    "crankcase": {
+      "name": "Crankcase",
+      "description": "Houses the crankshaft and oil.",
+      "related_signals": [
+        "vibration",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Low oil",
+        "Bearing wear"
+      ],
+      "inspection": "Check oil level."
+    },
+    "cylinder_head": {
+      "name": "Cylinder and head",
+      "description": "Compression cylinder with cooling fins and valves.",
+      "related_signals": [
+        "temperature",
+        "pressure"
+      ],
+      "failure_modes": [
+        "Valve wear",
+        "Fouled cooling fins"
+      ],
+      "inspection": "Clean fins and inspect valves."
+    },
+    "flywheel": {
+      "name": "Flywheel pulley",
+      "description": "Belt-driven flywheel.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Belt slip",
+        "Imbalance"
+      ],
+      "inspection": "Check belt tension and condition."
+    },
+    "intake_filter": {
+      "name": "Intake filter",
+      "description": "Filters incoming air.",
+      "related_signals": [
+        "temperature",
+        "current"
+      ],
+      "failure_modes": [
+        "Clogging"
+      ],
+      "inspection": "Clean or replace the element."
+    },
+    "housing_lower": {
+      "name": "Gear case",
+      "description": "Lower housing and oil sump.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Low oil level",
+        "Oil degradation"
+      ],
+      "inspection": "Check oil level and condition."
+    },
+    "housing_cover": {
+      "name": "Gear case cover",
+      "description": "Upper housing.",
+      "related_signals": [],
+      "failure_modes": [
+        "Seal leakage"
+      ],
+      "inspection": "Check for leaks."
+    },
+    "input_shaft": {
+      "name": "Input shaft",
+      "description": "High-speed shaft.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Misalignment"
+      ],
+      "inspection": "Check alignment."
+    },
+    "output_shaft": {
+      "name": "Output shaft",
+      "description": "Low-speed shaft.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Overload"
+      ],
+      "inspection": "Check driven load."
+    },
+    "pinion": {
+      "name": "Pinion",
+      "description": "Small driving gear.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Tooth wear",
+        "Pitting"
+      ],
+      "inspection": "Inspect tooth contact pattern."
+    },
+    "wheel": {
+      "name": "Gear wheel",
+      "description": "Large driven gear.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Tooth wear",
+        "Pitting"
+      ],
+      "inspection": "Inspect tooth contact pattern."
+    },
+    "belt": {
+      "name": "Belt",
+      "description": "Endless conveyor belt running around the drive and tail drums.",
+      "related_signals": [
+        "rpm"
+      ],
+      "failure_modes": [
+        "Mistracking",
+        "Wear"
+      ],
+      "inspection": "Check tracking and tension."
+    },
+    "rollers": {
+      "name": "Carrying idlers",
+      "description": "Rollers that support the loaded belt. Each turns at the belt speed divided by its radius.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Seized roller",
+        "Bearing wear"
+      ],
+      "inspection": "Check that every roller turns freely."
+    },
+    "frame": {
+      "name": "Frame",
+      "description": "Fixed side beams and cross ties of the conveyor.",
+      "related_signals": [],
+      "failure_modes": [
+        "Loose fixings"
+      ],
+      "inspection": "Check fixings."
+    },
+    "hub": {
+      "name": "Fan hub",
+      "description": "Carries the blades and fixes them to the shaft.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Loose hub",
+        "Cracked hub"
+      ],
+      "inspection": "Check the hub is tight on the shaft and free of cracks."
+    },
+    "blades": {
+      "name": "Fan blades",
+      "description": "Pitched blades that move air along the fan axis. They turn together with the hub.",
+      "related_signals": [
+        "vibration",
+        "rpm",
+        "airflow"
+      ],
+      "failure_modes": [
+        "Dirt build-up causing imbalance",
+        "Bent or cracked blade"
+      ],
+      "inspection": "Clean the blades and check each for damage and equal pitch."
+    },
+    "grille": {
+      "name": "Protective grille",
+      "description": "Fixed guard in front of the rotating blades.",
+      "related_signals": [],
+      "failure_modes": [
+        "Blockage",
+        "Loose fixing"
+      ],
+      "inspection": "Clear debris and check the fixings."
+    },
+    "back_plate": {
+      "name": "Back plate",
+      "description": "Closes the pump casing behind the impeller and carries the seal.",
+      "related_signals": [
+        "pressure"
+      ],
+      "failure_modes": [
+        "Gasket leak"
+      ],
+      "inspection": "Check the joint for leakage."
+    },
+    "piston": {
+      "name": "Piston",
+      "description": "Moves up and down in the cylinder to compress air. Driven by the crank through the connecting rod.",
+      "related_signals": [
+        "vibration",
+        "pressure",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Ring wear",
+        "Scoring"
+      ],
+      "inspection": "Check compression and inspect rings during overhaul."
+    },
+    "connecting_rod": {
+      "name": "Connecting rod",
+      "description": "Links the crank pin to the piston, turning rotation into reciprocation.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Big-end bearing wear",
+        "Bent rod"
+      ],
+      "inspection": "Check big-end and small-end play."
+    },
+    "crankshaft": {
+      "name": "Crankshaft",
+      "description": "Turns with the flywheel; its offset pin drives the connecting rod.",
+      "related_signals": [
+        "vibration",
+        "rpm"
+      ],
+      "failure_modes": [
+        "Journal wear",
+        "Misalignment"
+      ],
+      "inspection": "Check end float and journal condition."
+    },
+    "cylinder": {
+      "name": "Cylinder",
+      "description": "Finned barrel in which the piston runs.",
+      "related_signals": [
+        "temperature"
+      ],
+      "failure_modes": [
+        "Bore wear",
+        "Fouled cooling fins"
+      ],
+      "inspection": "Clean the fins; inspect the bore during overhaul."
+    },
+    "vbelt": {
+      "name": "V-belt",
+      "description": "Transmits power from the motor pulley to the flywheel.",
+      "related_signals": [
+        "rpm",
+        "vibration"
+      ],
+      "failure_modes": [
+        "Slip",
+        "Wear",
+        "Wrong tension"
+      ],
+      "inspection": "Check tension and condition."
+    },
+    "motor_pulley": {
+      "name": "Motor pulley",
+      "description": "Small pulley on the motor shaft. It turns faster than the flywheel by the ratio of their diameters.",
+      "related_signals": [
+        "rpm"
+      ],
+      "failure_modes": [
+        "Groove wear",
+        "Loose on shaft"
+      ],
+      "inspection": "Check the groove and that the pulley is tight."
+    },
+    "bearing_input": {
+      "name": "Input-shaft bearing",
+      "description": "Supports the high-speed input shaft of the gearbox.",
+      "related_signals": [
+        "vibration",
+        "temperature"
+      ],
+      "failure_modes": [
+        "Wear",
+        "Lubrication loss"
+      ],
+      "inspection": "Check for play and noise; check oil level."
+    },
+    "drive_drum": {
+      "name": "Drive drum",
+      "description": "Powered drum at the head of the conveyor. Its surface speed is the belt speed.",
+      "related_signals": [
+        "rpm"
+      ],
+      "failure_modes": [
+        "Worn lagging",
+        "Belt slip"
+      ],
+      "inspection": "Check lagging and belt tension."
+    },
+    "tail_drum": {
+      "name": "Tail drum",
+      "description": "Idle drum at the tail of the conveyor that returns the belt.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Bearing wear",
+        "Material build-up"
+      ],
+      "inspection": "Check it turns freely and is clean."
+    },
+    "return_idlers": {
+      "name": "Return idlers",
+      "description": "Rollers that support the empty belt on its way back.",
+      "related_signals": [
+        "vibration"
+      ],
+      "failure_modes": [
+        "Seized roller"
+      ],
+      "inspection": "Check that every roller turns."
+    },
+    "legs": {
+      "name": "Support legs",
+      "description": "Fixed legs that carry the conveyor frame.",
+      "related_signals": [],
+      "failure_modes": [
+        "Loose fixings"
+      ],
+      "inspection": "Check fixings and level."
+    },
+    "side_guides": {
+      "name": "Side guides",
+      "description": "Fixed rails that keep items on the belt.",
+      "related_signals": [],
+      "failure_modes": [
+        "Misadjustment"
+      ],
+      "inspection": "Check clearance to the belt."
+    }
+  }
+}

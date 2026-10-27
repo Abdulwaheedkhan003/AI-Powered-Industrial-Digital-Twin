@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="100%" height="auto">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&amp;family=Plus+Jakarta+Sans:wght@400;600;700;800&amp;display=swap');
+      
+      .bg { fill: #F6F4EE; }
+      .grid-line { stroke: #E4E0D7; stroke-width: 1; stroke-dasharray: 4 4; }
+      .border-line { stroke: #202224; stroke-width: 2; }
+      .accent-line { stroke: #FF5400; stroke-width: 3; }
+      .crosshair { stroke: #202224; stroke-width: 1.5; }
+      
+      .title { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 800; font-size: 38px; fill: #111315; letter-spacing: -0.03em; }
+      .subtitle { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 13px; fill: #FF5400; letter-spacing: 0.15em; text-transform: uppercase; }
+      .desc { font-family: 'Plus Jakarta Sans', -apple-system, sans-serif; font-weight: 400; font-size: 15px; fill: #484C52; line-height: 1.5; }
+      .mono-meta { font-family: 'JetBrains Mono', monospace; font-size: 11px; fill: #6E737B; letter-spacing: 0.05em; }
+      .badge-text { font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 600; fill: #111315; }
+      
+      .pulse-dot {
+        fill: #FF5400;
+        animation: pulse 2s infinite ease-in-out;
+      }
+      
+      @keyframes pulse {
+        0% { opacity: 0.3; r: 4px; }
+        50% { opacity: 1; r: 6px; }
+        100% { opacity: 0.3; r: 4px; }
+      }
+
+      .typing-cursor {
+        animation: blink 0.9s infinite;
+      }
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+
+      .wave-path {
+        stroke: #202224;
+        stroke-width: 1.5;
+        fill: none;
+      }
+      .wave-accent {
+        stroke: #FF5400;
+        stroke-width: 2;
+        fill: none;
+        stroke-dasharray: 200;
+        animation: waveflow 4s linear infinite;
+      }
+      @keyframes waveflow {
+        0% { stroke-dashoffset: 400; }
+        100% { stroke-dashoffset: 0; }
+      }
+    </style>
+  </defs>
+
+  <!-- Background Canvas -->
+  <rect width="1200" height="360" class="bg" rx="4" />
+  
+  <!-- Outer Technical Enclosure -->
+  <rect x="20" y="20" width="1160" height="320" fill="none" class="border-line" />
+  
+  <!-- Corner Crosshairs / Precision Fiducials -->
+  <path d="M 12 20 L 28 20 M 20 12 L 20 28" class="crosshair" />
+  <path d="M 1172 20 L 1188 20 M 1180 12 L 1180 28" class="crosshair" />
+  <path d="M 12 340 L 28 340 M 20 332 L 20 348" class="crosshair" />
+  <path d="M 1172 340 L 1188 340 M 1180 332 L 1180 348" class="crosshair" />
+  
+  <!-- Subtle Technical Grid Lines -->
+  <line x1="820" y1="20" x2="820" y2="340" class="grid-line" />
+  <line x1="20" y1="80" x2="820" y2="80" class="grid-line" />
+  <line x1="20" y1="270" x2="1180" y2="270" class="grid-line" />
+
+  <!-- Top Metadata Bar -->
+  <text x="45" y="55" class="subtitle">SYS::SPEC-DT-01 // AUTONOMOUS CONDITION MONITORING</text>
+  <circle cx="780" cy="51" r="5" class="pulse-dot" />
+  <text x="685" y="55" class="mono-meta">LIVE RIG LINK</text>
+  
+  <!-- Main Title & Core Identity -->
+  <text x="45" y="132" class="title">NEXUS INDUSTRIAL DIGITAL TWIN</text>
+  <rect x="45" y="146" width="90" height="4" fill="#FF5400" />
+
+  <!-- Descriptive Subheading -->
+  <text x="45" y="185" class="desc">Deterministic Real-Time Edge Telemetry, High-Frequency Vibration FFT (500 Hz),</text>
+  <text x="45" y="210" class="desc">Unsupervised Isolation Forest Anomaly Scoring &amp; Spatial 3D Factory Fleet Twin.</text>
+
+  <!-- Bottom Technical Badges & Specifications -->
+  <g transform="translate(45, 292)">
+    <!-- Node Spec -->
+    <rect x="0" y="0" width="135" height="26" fill="#ECE9DF" stroke="#202224" stroke-width="1" />
+    <text x="10" y="17" class="badge-text">NODE: ESP32-WROOM</text>
+
+    <!-- IMU Spec -->
+    <rect x="145" y="0" width="155" height="26" fill="#ECE9DF" stroke="#202224" stroke-width="1" />
+    <text x="155" y="17" class="badge-text">IMU: MPU-6050 (500Hz)</text>
+
+    <!-- Algorithm Spec -->
+    <rect x="310" y="0" width="170" height="26" fill="#ECE9DF" stroke="#202224" stroke-width="1" />
+    <text x="320" y="17" class="badge-text">ML: ISOLATION FOREST</text>
+
+    <!-- Visual Twin Spec -->
+    <rect x="490" y="0" width="150" height="26" fill="#ECE9DF" stroke="#202224" stroke-width="1" />
+    <text x="500" y="17" class="badge-text">TWIN: THREE.JS / R3F</text>
+  </g>
+
+  <!-- Right Instrumentation Panel (Swiss Engineering Schematic) -->
+  <g transform="translate(850, 45)">
+    <!-- Panel Header -->
+    <text x="0" y="15" class="mono-meta">TELEMETRY ENVELOPE [REAL RIG]</text>
+    
+    <!-- Mini Technical Box -->
+    <rect x="0" y="30" width="290" height="180" fill="#ECE9DF" stroke="#202224" stroke-width="1" />
+    
+    <!-- Waveform Visualizer Background Grid -->
+    <line x1="0" y1="120" x2="290" y2="120" stroke="#DDD7CB" stroke-width="1" />
+    <line x1="145" y1="30" x2="145" y2="210" stroke="#DDD7CB" stroke-width="1" />
+    
+    <!-- Real-time Vibration Dynamic Signal Path -->
+    <path d="M 10 120 Q 30 115 50 120 T 90 90 T 115 150 T 135 70 T 155 160 T 180 110 T 210 125 T 250 120 T 280 120" class="wave-path" />
+    <path d="M 10 120 Q 30 115 50 120 T 90 90 T 115 150 T 135 70 T 155 160 T 180 110 T 210 125 T 250 120 T 280 120" class="wave-accent" />
+    
+    <!-- Real-time Metric Readouts in Panel -->
+    <rect x="15" y="42" width="120" height="24" fill="#F6F4EE" stroke="#202224" stroke-width="0.75" />
+    <text x="22" y="58" class="badge-text">RMS: 0.453 m/s²</text>
+
+    <rect x="155" y="42" width="120" height="24" fill="#F6F4EE" stroke="#202224" stroke-width="0.75" />
+    <text x="162" y="58" class="badge-text">TEMP: 33.90 °C</text>
+
+    <rect x="15" y="172" width="120" height="24" fill="#F6F4EE" stroke="#202224" stroke-width="0.75" />
+    <text x="22" y="188" class="badge-text">SPEED: 120 RPM</text>
+
+    <rect x="155" y="172" width="120" height="24" fill="#FF5400" stroke="#202224" stroke-width="0.75" />
+    <text x="162" y="188" font-family="'JetBrains Mono', monospace" font-size="11px" font-weight="700" fill="#FFFFFF">HEALTH: 98.4%</text>
+
+    <!-- Calibration Tag -->
+    <text x="0" y="247" class="mono-meta">ISO 10816-3 CLASSIFICATION // CLASS I</text>
+  </g>
+</svg>
