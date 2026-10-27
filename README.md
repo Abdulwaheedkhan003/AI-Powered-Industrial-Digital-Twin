@@ -368,5 +368,5 @@ To maintain absolute technical transparency, the capabilities of this release ar
 
 This project is distributed under the **MIT License**.
 
-Developed by **[Abdul Waheed Khan](https://github.com/Abdulwaheedkhan003)** — Electrical & AI Systems Engineering.  
+Developed by **[Abdul Waheed Khan](https://github.com/Abdulwaheedkhan003)** — Electronics and communication Engineering.  
 Designed according to **DIN EN ISO 13373-1** (Condition monitoring and diagnostics of machines) and **ISO 10816-3** (Mechanical vibration evaluation standards).
