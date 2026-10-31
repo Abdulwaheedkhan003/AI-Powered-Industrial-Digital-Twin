@@ -5,7 +5,7 @@ import { AssetPicker, SourceNote, isStale, useLivePoints } from '../components/d
 import LineChart, { SERIES_COLORS, Series } from '../components/LineChart'
 import { Empty, ErrorNote, Freshness, Icon, Loading, ModeChip, Note, Panel, Seg, StateChip, useFetch } from '../components/ui'
 import { hasLiveData } from '../lib/status'
-import { api, fmtAge, fmtDateTime, fmtNum, fmtTime, useAsset, useDef, useStore } from '../lib/store'
+import { api, fmtAge, fmtDateTime, fmtNum, fmtTime, useAsset, useDef, useStore, BACKEND_URL } from '../lib/store'
 
 // ------------------------------------------------------------------ Assets
 export function Assets() {
@@ -85,7 +85,7 @@ export function Monitoring() {
         <Seg label="Time range" value={range} onChange={(v) => { setRange(v); setPaused(false) }} options={RANGES.map((r) => [r[0], r[1]] as [string, string])} />
         <button className="btn" onClick={() => setPaused(!paused)} aria-pressed={paused}><Icon name={paused ? 'play' : 'pause'} />{paused ? 'Resume' : 'Pause'}</button>
         <label className="switch small"><input type="checkbox" checked={compare} disabled={range === 'live'} onChange={(e) => setCompare(e.target.checked)} />Compare with previous period</label>
-        <a className="btn" href={`/api/assets/${id}/export.csv?minutes=${minutes}`}><Icon name="download" />Export CSV</a>
+        <a className="btn" href={`${BACKEND_URL}/api/assets/${id}/export.csv?minutes=${minutes}`}><Icon name="download" />Export CSV</a>
       </div>
       <SourceNote id={id} />
       <div className="grid cols-side">

@@ -1,0 +1,10 @@
+{
+  "buildCommand": "cd nexus/frontend && npm install && npm run build",
+  "outputDirectory": "nexus/frontend/dist",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}

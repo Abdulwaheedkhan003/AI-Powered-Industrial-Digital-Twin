@@ -3,7 +3,7 @@
 import { FormEvent, useEffect, useState } from 'react'
 import LineChart, { SERIES_COLORS, type Series } from '../components/LineChart'
 import { Empty, ErrorNote, Icon, Loading, Note, Panel, Seg, useFetch } from '../components/ui'
-import { act, api, fmtNum, fmtDateTime } from '../lib/store'
+import { act, api, fmtNum, fmtDateTime, BACKEND_URL } from '../lib/store'
 
 /* ---------- types -------------------------------------------------------- */
 type Session = { session_id: string; file: string; data_source: string; start: string; end: string; samples: number; available_sensors: string; median_interval_s: number | null }
@@ -341,7 +341,7 @@ export default function Analysis() {
           <span className="spacer" />
           <button className="btn sm ghost" onClick={() => setTab('sessions')}>Change session</button>
           {tab === 'detection' && <button className="btn sm primary" disabled={training} onClick={trainModel}>{training ? 'Training…' : 'Train AI model'}</button>}
-          <a className="btn sm ghost" href={`/api/analysis/report/${encodeURIComponent(selectedFile)}`} download><Icon name="download" /> Report</a>
+          <a className="btn sm ghost" href={`${BACKEND_URL}/api/analysis/report/${encodeURIComponent(selectedFile)}`} download><Icon name="download" /> Report</a>
         </div>
       )}
 

@@ -56,13 +56,16 @@ export function setAuth(auth: Auth) {
 }
 export const openLogin = (_open = true) => {}       // sign-in is not used
 
+export const BACKEND_URL = (import.meta.env.VITE_BACKEND_URL || '').replace(/\/$/, '')
+export const getApiUrl = (path: string) => `${BACKEND_URL}${path}`
+
 export async function api(path: string, options: { method?: string; body?: any } = {}) {
   const headers: Record<string, string> = {}
   if (options.body !== undefined) headers['Content-Type'] = 'application/json'
   if (state.auth?.token) headers.Authorization = `Bearer ${state.auth.token}`
   let res: Response
   try {
-    res = await fetch(`/api${path}`, { method: options.method || 'GET', headers, body: options.body !== undefined ? JSON.stringify(options.body) : undefined })
+    res = await fetch(`${BACKEND_URL}/api${path}`, { method: options.method || 'GET', headers, body: options.body !== undefined ? JSON.stringify(options.body) : undefined })
   } catch { throw new Error('The backend is not reachable.') }
   if (!res.ok) {
     let detail = `${res.status} ${res.statusText}`
@@ -87,8 +90,17 @@ export function startStream() {
   if (started) return
   started = true
   const open = () => {
-    const proto = location.protocol === 'https:' ? 'wss' : 'ws'
-    socket = new WebSocket(`${proto}://${location.host}/ws`)
+    let wsUrl: string
+    if (BACKEND_URL) {
+      const isHttps = BACKEND_URL.startsWith('https:') || (!BACKEND_URL.startsWith('http:') && location.protocol === 'https:')
+      const proto = isHttps ? 'wss' : 'ws'
+      const host = BACKEND_URL.replace(/^https?:\/\//, '')
+      wsUrl = `${proto}://${host}/ws`
+    } else {
+      const proto = location.protocol === 'https:' ? 'wss' : 'ws'
+      wsUrl = `${proto}://${location.host}/ws`
+    }
+    socket = new WebSocket(wsUrl)
     socket.onopen = () => { retry = 0; set({ connection: 'open' }); if (!state.site) loadSite() }
     socket.onmessage = (ev) => {
       const snap = JSON.parse(ev.data)

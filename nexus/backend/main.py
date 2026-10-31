@@ -6,6 +6,7 @@ import asyncio
 import contextvars
 import csv
 import io
+import os
 import sys
 import time
 from contextlib import asynccontextmanager
@@ -142,9 +143,21 @@ def create_app(settings=None, link=None, run_loop=True, raw_export_dir=None, rep
     async def remember_client(request, call_next):
         CLIENT.set(request.client.host if request.client else "")
         return await call_next(request)
-    # the Vite dev server is the only other origin allowed to call the API
-    app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-                       allow_methods=["*"], allow_headers=["*"])
+    # Support local Vite dev server and cloud origins (e.g. Vercel)
+    cors_env = os.environ.get("CORS_ORIGINS", "")
+    if cors_env == "*":
+        app.add_middleware(CORSMiddleware, allow_origins=["*"], allow_methods=["*"], allow_headers=["*"])
+    else:
+        cors_origins = [o.strip() for o in cors_env.split(",") if o.strip()] if cors_env else [
+            "http://localhost:5173", "http://127.0.0.1:5173", "http://localhost:3000", "http://127.0.0.1:3000"
+        ]
+        app.add_middleware(
+            CORSMiddleware,
+            allow_origins=cors_origins,
+            allow_origin_regex=os.environ.get("CORS_ORIGIN_REGEX", r"https://.*\.vercel\.app"),
+            allow_methods=["*"],
+            allow_headers=["*"],
+        )
 
     @app.exception_handler(AuthError)
     async def auth_error(_request, err):
@@ -156,8 +169,9 @@ def create_app(settings=None, link=None, run_loop=True, raw_export_dir=None, rep
 
     def who(authorization, role="viewer"):
         identity = security.identify(authorization)
-        if identity["role"] == "viewer" and getattr(settings, "open_local", False) and CLIENT.get() in LOOPBACK:
-            return "local user"              # no sign-in on this computer; other machines still need one
+        if identity["role"] == "viewer":
+            if getattr(settings, "open_access", False) or (getattr(settings, "open_local", False) and CLIENT.get() in LOOPBACK):
+                return "local user"              # no sign-in needed in open demo or local mode
         security.require(identity, role)
         return identity["user"]
 
@@ -498,3 +512,9 @@ def _production_app():
 
 
 app = _production_app() if "pytest" not in sys.modules else None
+ 
+if __name__ == "__main__":
+    import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
+

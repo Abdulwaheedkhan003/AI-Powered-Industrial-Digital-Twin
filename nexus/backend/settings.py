@@ -29,6 +29,8 @@ class Settings:
     demo_fill: bool = False      # generate plausible motor readings while the ESP32 is silent
     auto_faults: bool = False    # let one virtual machine develop a fault at random
     open_local: bool = False     # requests from this computer need no sign-in (full access)
+    open_access: bool = False    # demo deployment: full access without requiring local loopback
+
 
 
 def _read_env_file(path):
@@ -73,4 +75,5 @@ def load_settings(env_file=ENV_FILE):
         demo_fill=get("NEXUS_DEMO_FILL", "1") != "0",
         auto_faults=get("NEXUS_AUTO_FAULTS", "1") != "0",
         open_local=get("NEXUS_OPEN_LOCAL", "1") != "0",
+        open_access=get("NEXUS_OPEN_ACCESS", "1" if os.environ.get("RENDER") else "0") != "0",
     )

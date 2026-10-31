@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: nexus-digital-twin
+    env: docker
+    dockerfilePath: ./Dockerfile
+    plan: free
+    region: oregon
+    branch: main
+    healthCheckPath: /api/health
+    envVars:
+      - key: NEXUS_DEMO_FILL
+        value: "1"
+      - key: NEXUS_AUTO_FAULTS
+        value: "1"
+      - key: NEXUS_OPEN_ACCESS
+        value: "1"
+      - key: NEXUS_OPEN_LOCAL
+        value: "1"
+      - key: CORS_ORIGINS
+        value: "*"
